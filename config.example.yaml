@@ -1,0 +1,68 @@
+# AI 群聊辩论室 — 配置文件模板
+# 复制此文件为 config.yaml 并填入你的 API Key
+# cp config.example.yaml config.yaml
+
+agents:
+  architect:
+    name: "架构师·扶摇"
+    role: architect
+    model: deepseek-v4-pro
+    api_base: https://api.deepseek.com
+    api_key: YOUR_DEEPSEEK_API_KEY
+    color: cyan
+    priority: 3
+    temperature: 0.8
+
+  researcher:
+    name: "研究员·通明"
+    role: researcher
+    model: kimi-k2.6
+    api_base: https://api.moonshot.cn/v1
+    api_key: YOUR_KIMI_API_KEY
+    color: green
+    priority: 3
+    temperature: 1.0  # Kimi 只支持 temperature=1
+
+  decomposer:
+    name: "拆解者·析微"
+    role: decomposer
+    model: glm-5.1
+    api_base: https://open.bigmodel.cn/api/paas/v4
+    api_key: YOUR_GLM_API_KEY
+    color: yellow
+    priority: 3
+    temperature: 0.8
+
+  challenger:
+    name: "挑战者·破壁"
+    role: challenger
+    model: deepseek-v4-pro
+    api_base: https://api.deepseek.com
+    api_key: YOUR_DEEPSEEK_API_KEY
+    color: red
+    priority: 2
+    temperature: 0.8
+
+  arbiter:
+    name: "裁决者·衡道"
+    role: arbiter
+    model: doubao-seed-2.0-pro        # 或火山引擎接入点 ep-xxxxxxxxxxxx
+    api_base: https://ark.cn-beijing.volces.com/api/v3
+    api_key: YOUR_DOUBAO_API_KEY
+    color: magenta
+    priority: 3
+    temperature: 0.8
+
+debate:
+  max_rounds: 10
+  low_quality_threshold: 2
+  phase1_order:
+    - architect
+    - researcher
+    - decomposer
+    - challenger
+  free_debate_order:
+    - architect
+    - researcher
+    - decomposer
+    - challenger
