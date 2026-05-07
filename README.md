@@ -81,6 +81,7 @@ ai-groupchat/
 ├── orchestrator.py      # 辩论引擎 — 发言调度、质量检测、@ 机制、终止判断
 ├── agent.py             # Agent 类 — 封装 OpenAI 兼容 API 调用
 ├── context_manager.py   # 对话历史管理 + JSON 持久化
+├── file_handler.py      # 本地文件读取（支持 40+ 文本格式和 PDF）
 ├── ui.py                # Rich 终端界面
 ├── config.yaml          # Agent 配置（模型名、API Key、Base URL）
 ├── prompts/             # 每个角色的 system prompt
@@ -160,9 +161,38 @@ python main.py
 4. 辩论中随时输入：
    - `/stop` — 当前轮结束后触发裁决者总结
    - `/skip` — 跳过当前发言者
+   - `/file <路径>` — 上传本地文件，内容注入群聊上下文，所有 Agent 可见
    - 直接打字 — 以主持人身份插入消息
 5. 裁决者输出最终计划后，辩论结束
 6. JSON 记录自动保存到 `debates/` 目录
+
+### 上传文件
+
+支持在辩论前或辩论中上传本地文件，内容会作为共享参考资料注入对话，所有 Agent 都能看到并基于文件内容讨论。
+
+**辩论前上传：**
+```bash
+>>> /file D:\docs\需求文档.md
+  ✓ 已上传: 需求文档.md
+>>> /file D:\docs\压测报告.txt
+  ✓ 已上传: 压测报告.txt
+>>> 请分析这些文档并给出技术方案
+```
+
+**同行简写（路径 + 问题写在同一行）：**
+```bash
+>>> /file D:\docs\需求.md 分析这份需求文档
+  ✓ 已上传: 需求.md
+```
+
+**辩论中上传：**
+```bash
+🔵 [架构师] ...正在发言...
+>>> /file D:\docs\补充材料.txt
+  ✓ 已上传文件到群聊: 补充材料.txt
+```
+
+支持的文件类型：`.txt` `.md` `.py` `.js` `.json` `.yaml` `.html` `.sql` 等 40+ 种文本格式，以及 PDF（需 `pip install PyPDF2`）。单文件限制 500KB。
 
 ### 测试模式（无需交互）
 
